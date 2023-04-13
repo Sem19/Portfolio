@@ -2,6 +2,10 @@ let btn = document.querySelector('.switch');
 let body = document.querySelector('body');
 let burger = document.querySelector('.burger');
 let nav = document.querySelector('.nav');
+const medianav = window.matchMedia('(max-width: 980px)');
+let navlink = document.querySelectorAll('.menu-link');
+
+
 
 btn.addEventListener('click', function () {
     btn.classList.toggle('active');
@@ -13,6 +17,41 @@ burger.addEventListener('click', function () {
     nav.classList.toggle('active');
     body.classList.toggle('hiden');
 })
+
+function navclassdelete(){
+    for(let i = 0; i < navlink.length; i++){
+        navlink[i].addEventListener('click', function(){
+                burger.classList.remove('active');
+                nav.classList.remove('active');
+            
+        })
+    }
+}
+
+if(medianav.matches) navclassdelete();
+
+
+
+const links = document.querySelectorAll('a[href^="#"]');
+for(let i = 0; i<links.length; i++){
+    let link = links[i];
+    link.addEventListener('click', function(e){
+        e.preventDefault();
+        let href = this.getAttribute('href').substring(1);
+        const scrollTarget = document.getElementById(href);
+
+        const topofset = document.querySelector('.menu').offsetHeight;
+        const elemPosition = scrollTarget.getBoundingClientRect().top;
+        
+        const ofsetPos = elemPosition - topofset;
+
+        window.scrollBy({
+            top: ofsetPos, 
+            behavior: 'smooth'
+        })
+    })
+}
+
 
 $(document).ready(function () {
     $(".portfolio-slider").slick({
